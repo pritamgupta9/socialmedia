@@ -18,19 +18,21 @@ router.post('/createpost', requireLogin, async (req, res) => {
     res.status(201).json({ msg: 'Post created successfully' });
 })
 
-router.get("/myposts", requireLogin, async (req, res) => {
+router.post('/mypost', requireLogin, async (req, res) => {
     try {
         const posts = await Post.find({ postedBy: req.user._id })
-        res.status(200).json({myPost:posts});
+        res.status(200).json({mypost:posts});
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 })
 
-router.get('/allposts', requireLogin, async (req, res) => {
+router.get('/allpost', requireLogin, async (req, res) => {
     try {
         const posts = await Post.find()
+        console.log(posts,"ffff");
+        
         res.status(200).json({allPosts:posts});
     } catch (err) {
         console.error(err);
@@ -38,7 +40,7 @@ router.get('/allposts', requireLogin, async (req, res) => {
     }
     })
 
-router.post('/like', requireLogin, async (req, res) => {
+router.put('/like', requireLogin, async (req, res) => {
     try {
         const post = await Post.findByIdAndUpdate(req.body.postId, {
             $push: { likes: req.user._id }
@@ -62,7 +64,7 @@ router.post('/unlike', requireLogin, async (req, res) => {
     }
 })
 
-router.post('/comment', requireLogin, async (req, res) => {
+router.put('/comment', requireLogin, async (req, res) => {
     const comment = {
         text: req.body.text,
         postedBy: req.user._id

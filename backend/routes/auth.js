@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const requireLogin = require('../middleware/reqlogin');
 const userModel = require('../models/user.model');
+const jwt = require('jsonwebtoken');
 
 router.post('/signup', async (req, res) => {
     const { name, email, password, pic } = req.body;
@@ -34,7 +35,7 @@ router.post('/signup', async (req, res) => {
     
 })
 
-router.post("/login", async (req, res) => {
+router.post("/signin", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -58,3 +59,5 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 })
+
+module.exports = router;
