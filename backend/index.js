@@ -1,8 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require("path")
+
+console.log(path.resolve(__dirname,"../frontend/build"));
 
 const app = express();
+
+app.use(express.static(path.resolve(__dirname,"../frontend/build")))
 const PORT = process.env.PORT || 5000;
 async function connectDB(){
     try{
@@ -23,6 +28,9 @@ app.use(express.json());
 app.use(require('./routes/auth'));
 app.use(require('./routes/post'));
 app.use(require('./routes/user'));
+// app.get("*",(req,res)=>{
+//     res.sendFile(path.resolve(__dirname,"../frontend/build","index.html"))
+// })
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
