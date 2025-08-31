@@ -9,7 +9,7 @@ const Signin = () =>{
     const [password,setPassword] = useState("");
     const [email,setEmail] = useState("")
     const PostData = () =>{
-        fetch("http://localhost:5000/signin",{
+        fetch("http://localhost:5000/api/signin",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"

@@ -8,7 +8,7 @@ const Profile = () =>{
     console.log(state)
     let renderItem;
     useEffect(()=>{
-        fetch('http://localhost:5000/mypost',{
+        fetch('http://localhost:5000/api/mypost',{
             headers:{
             "Authorization":"Bearer "+localStorage.getItem("jwt")
             },

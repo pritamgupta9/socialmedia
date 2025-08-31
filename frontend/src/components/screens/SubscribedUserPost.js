@@ -11,7 +11,7 @@ const SubscribedUserPost = () =>{
         if(!state){
             history.push('/signin')
         }
-        fetch('http://localhost:5000/getsubpost',{
+        fetch('http://localhost:5000/api/getsubpost',{
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":"Bearer "+localStorage.getItem("jwt")
@@ -26,7 +26,7 @@ const SubscribedUserPost = () =>{
     }, [])
  
     const likePost = (id) =>{
-        fetch('http://localhost:5000/like',{
+        fetch('http://localhost:5000/api/like',{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -53,7 +53,7 @@ const SubscribedUserPost = () =>{
     }
 
     const UnlikePost = (id) =>{
-        fetch('http://localhost:5000/unlike',{
+        fetch('http://localhost:5000/api/unlike',{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -80,7 +80,7 @@ const SubscribedUserPost = () =>{
     }
 
     const makeComment = (text,postId) =>{
-        fetch('http://localhost:5000/comment',{
+        fetch('http://localhost:5000/api/comment',{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -108,7 +108,7 @@ const SubscribedUserPost = () =>{
     }
 
     const deletePost = postId =>{
-        fetch(`http://localhost:5000/deletepost/${postId}`,{
+        fetch(`http://localhost:5000/api/deletepost/${postId}`,{
             method:"delete",
             headers:{
                 "Content-Type":"application/json",

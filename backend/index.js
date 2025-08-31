@@ -1,37 +1,43 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require("path")
-
-console.log(path.resolve(__dirname,"../frontend/build"));
+const path = require("path");
 
 const app = express();
-
-app.use(express.static(path.resolve(__dirname,"../frontend/build")))
 const PORT = process.env.PORT || 5000;
-async function connectDB(){
-    try{
-        const res = await mongoose.connect('mongodb+srv://preetam:preetam@cluster0.wg3g3.mongodb.net/socialmedia?retryWrites=true&w=majority&appName=Cluster0')
-        console.log('Connected to MongoDB:', res.connection.host);
-    }
-    catch(err){
-        console.log('Error connecting to MongoDB:', err.message);
-        
 
+// MongoDB connection
+async function connectDB() {
+    try {
+        const res = await mongoose.connect(
+            'mongodb+srv://preetam:preetam@cluster0.wg3g3.mongodb.net/socialmedia?retryWrites=true&w=majority&appName=Cluster0'
+        );
+        console.log('Connected to MongoDB:', res.connection.host);
+    } catch (err) {
+        console.log('Error connecting to MongoDB:', err.message);
     }
 }
-
 connectDB();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-app.use(require('./routes/auth'));
-app.use(require('./routes/post'));
-app.use(require('./routes/user'));
-// app.get("*",(req,res)=>{
-//     res.sendFile(path.resolve(__dirname,"../frontend/build","index.html"))
-// })
+// API routes (make sure routes use `router = express.Router()` and proper paths!)
+app.use("/api", require('./routes/auth'));
+app.use("/api", require('./routes/post'));
+app.use("/api", require('./routes/user'));
 
+// Serve frontend build
+const frontendPath = path.resolve(__dirname, "../frontend/build");
+app.use(express.static(frontendPath));
+
+// Catch-all (for React Router)
+app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+});
+
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
