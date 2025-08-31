@@ -20,7 +20,11 @@ async function connectDB() {
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",  // Allow frontend domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 // API routes (make sure routes use `router = express.Router()` and proper paths!)
